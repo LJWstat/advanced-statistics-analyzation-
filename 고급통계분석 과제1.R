@@ -670,23 +670,17 @@ KRR_predict = function(model, newdata)
 
 
 predict.krr = function(object, newdata) {
-  # 모델 객체에서 필요한 값들을 추출합니다.
   X_train = object$X
   alpha = object$alpha
   rho = object$rho
   
-  # 새로운 데이터의 개수를 확인합니다.
   n_new = length(newdata)
   
-  # 결과를 저장할 벡터를 초기화합니다.
   predictions = numeric(n_new)
   
-  # 새로운 데이터 포인트별로 예측값을 계산합니다.
   for (i in 1:n_new) {
-    # 훈련 데이터와의 커널 벡터 k(x, X)를 계산합니다.
     k_vec = sapply(X_train, function(x_i) gaussian_kernel(newdata[i], x_i, rho = rho))
     
-    # 예측값을 계산합니다. 
     predictions[i] = t(k_vec) %*% alpha
   }
   
